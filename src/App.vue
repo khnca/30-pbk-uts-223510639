@@ -11,6 +11,40 @@ const todos_asc = computed(() => todos.value.sort((a,b) =>{
 	return a.createdAt - b.createdAt
 }))
 
+const activeMenu = ref('todos');
+const users = ref([]);
+const posts = ref([]);
+const selectedUser = ref(null);
+
+const showTodos = () => {
+  activeMenu.value = 'todos';
+};
+
+const showPosts = () => {
+  activeMenu.value = 'posts';
+};
+
+onMounted(() => {
+  // Ambil data user dari API
+  fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+    .then(data => {
+      users.value = data;
+    });
+
+  // Ambil data postingan dari API
+  fetch('https://jsonplaceholder.typicode.com/posts')
+    .then(response => response.json())
+    .then(data => {
+      posts.value = data;
+    });
+});
+
+const filteredPosts = computed(() => {
+  // Filter postingan berdasarkan user yang dipilih
+  return posts.value.filter(post => post.userId === parseInt(selectedUser.value));
+});
+
 watch(name, (newVal) => {
 	localStorage.setItem('name', newVal)
 })
@@ -39,6 +73,10 @@ const removeTodo = (todo) => {
 	todos.value = todos.value.filter((t) => t !== todo)
 }
 
+const editTodo = (todo) => {
+	todo.editable = true;
+}
+
 onMounted(() => {
 	name.value = localStorage.getItem('name') || ''
 	todos.value = JSON.parse(localStorage.getItem('todos')) || []
@@ -46,27 +84,65 @@ onMounted(() => {
 </script>
 
 <template>
+
+<div id="app">
+    <!-- Header -->
+    <header>
+      <nav>
+        <ul>
+          <li @click="showTodos">Todos</li>
+          <li @click="showPosts">Posts</li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <div v-if="activeMenu === 'todos'">
+        <!-- Fitur Todos -->
+        <h2>Todos</h2>
+        <!-- Placeholder untuk implementasi fitur Todos -->
+      </div>
+      <div v-else-if="activeMenu === 'posts'">
+        <!-- Fitur Postingan -->
+        <h2>Postingan</h2>
+        <select v-model="selectedUser">
+          <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
+        </select>
+        <div v-if="selectedUser">
+          <div v-for="post in filteredPosts" :key="post.id">
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.body }}</p>
+          </div>
+        </div>
+        <div v-else>
+          <p>Silakan pilih pengguna untuk melihat postingan mereka.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+
 	<main class="app">
 		
 		<section class="greeting">
 			<h2 class="title">
-				Selamat Datang di To do List Khansa
+				LIST AKTIVITAS KHANSA
 			</h2>
 		</section>
 
 		<section class="create-todo">
-			<h3>LIST AKTIVITAS</h3>
 
 			<form id="new-todo-form" @submit.prevent="addTodo">
-				<h4>Tambahkan Aktivitas</h4>
+				<h4>LIST AKTIVITAS</h4>
 				<input 
 					type="text" 
 					name="content" 
 					id="content" 
-					placeholder="Ketik Aktivitas Disini"
+					placeholder="Ketik Disini"
 					v-model="input_content" />
 				
-				<h4>Pilih Hari</h4>
+				<h4>WAKTU</h4>
 				<div class="options">
 
 					<label>
@@ -74,10 +150,10 @@ onMounted(() => {
 							type="radio" 
 							name="category" 
 							id="category1" 
-							value="Weekend"
+							value="Harian"
 							v-model="input_category" />
-						<span class="bubble Weekend"></span>
-						<div>Weekend</div>
+						<span class="bubble Harian"></span>
+						<div>Harian</div>
 					</label>
 
 					<label>
@@ -85,15 +161,15 @@ onMounted(() => {
 							type="radio" 
 							name="category" 
 							id="category2" 
-							value="Hari Biasa"
+							value="Kuliah"
 							v-model="input_category" />
-						<span class="bubble Hari Biasa"></span>
-						<div>Hari Biasa</div>
+						<span class="bubble Kuliah"></span>
+						<div>Kuliah</div>
 					</label>
 
 				</div>
 
-				<input type="submit" value="Tambahkan" />
+				<input type="submit" value="add Todo" />
 			</form>
 		</section>
 
@@ -105,17 +181,21 @@ onMounted(() => {
 					<label>
 						<input type="checkbox" v-model="todo.done" />
 						<span :class="`bubble ${
-							todo.category == 'Weekend' 
-								? 'Weekend' 
-								: 'Hari Biasa'
+							todo.category == 'Harian' 
+								? 'Harian' 
+								: 'Kuliah'
 						}`"></span>
 					</label>
 
-					<div class="todo-content">
+					<div v-if="!todo.editable" class="todo-content">
+						{{ todo.content }}
+					</div>
+					<div v-else class="todo-content">
 						<input type="text" v-model="todo.content" />
 					</div>
 
 					<div class="actions">
+						<button class="edit" @click="editTodo(todo)">Edit</button>
 						<button class="delete" @click="removeTodo(todo)">Delete</button>
 					</div>
 				</div>
