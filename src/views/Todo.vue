@@ -11,6 +11,16 @@ const todos_asc = computed(() => todos.value.sort((a,b) =>{
 	return a.createdAt - b.createdAt
 }))
 
+watch(name, (newVal) => {
+	localStorage.setItem('name', newVal)
+})
+
+watch(todos, (newVal) => {
+	localStorage.setItem('todos', JSON.stringify(newVal))
+}, {
+	deep: true
+})
+
 const addTodo = () => {
 	if (input_content.value.trim() === '' || input_category.value === null) {
 		return
@@ -40,22 +50,23 @@ onMounted(() => {
 		
 		<section class="greeting">
 			<h2 class="title">
-				TO DO LIST
+				Selamat Datang di To do List Khansa
 			</h2>
 		</section>
 
 		<section class="create-todo">
+			<h3>LIST AKTIVITAS</h3>
 
 			<form id="new-todo-form" @submit.prevent="addTodo">
-				<h4>LIST AKTIVITAS</h4>
+				<h4>Tambahkan Aktivitas</h4>
 				<input 
 					type="text" 
 					name="content" 
 					id="content" 
-					placeholder="Ketik Disini"
+					placeholder="Ketik Aktivitas Disini"
 					v-model="input_content" />
 				
-				<h4>TUGAS</h4>
+				<h4>Pilih Hari</h4>
 				<div class="options">
 
 					<label>
@@ -63,10 +74,10 @@ onMounted(() => {
 							type="radio" 
 							name="category" 
 							id="category1" 
-							value="Harian"
+							value="Weekend"
 							v-model="input_category" />
-						<span class="bubble Harian"></span>
-						<div>Harian</div>
+						<span class="bubble Weekend"></span>
+						<div>Weekend</div>
 					</label>
 
 					<label>
@@ -74,15 +85,15 @@ onMounted(() => {
 							type="radio" 
 							name="category" 
 							id="category2" 
-							value="Kuliah"
+							value="Hari Biasa"
 							v-model="input_category" />
-						<span class="bubble Kuliah"></span>
-						<div>Kuliah</div>
+						<span class="bubble Hari Biasa"></span>
+						<div>Hari Biasa</div>
 					</label>
 
 				</div>
 
-				<input type="submit" value="add Todo" />
+				<input type="submit" value="Tambahkan" />
 			</form>
 		</section>
 
@@ -94,9 +105,9 @@ onMounted(() => {
 					<label>
 						<input type="checkbox" v-model="todo.done" />
 						<span :class="`bubble ${
-							todo.category == 'Harian' 
-								? 'Harian' 
-								: 'Kuliah'
+							todo.category == 'Weekend' 
+								? 'Weekend' 
+								: 'Hari Biasa'
 						}`"></span>
 					</label>
 
@@ -114,3 +125,4 @@ onMounted(() => {
 
 	</main>
 </template>
+S
