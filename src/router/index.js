@@ -1,4 +1,3 @@
-// router/index.js
 import { createRouter, createWebHistory } from "vue-router";
 import MainLayout from "../components/MainLayout.vue";
 import Todo from "../views/Todo.vue";
