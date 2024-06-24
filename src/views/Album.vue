@@ -37,7 +37,7 @@ const fetchPhotos = async () => {
     isLoading.value = true;
     const response = await fetch(
       "https://jsonplaceholder.typicode.com/photos?albumId=1"
-    ); // Directly fetch filtered data
+    ); 
     const data = await response.json();
     photos.value = data.map((photo) => ({
       id: photo.id,
