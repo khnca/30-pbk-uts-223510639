@@ -1,16 +1,16 @@
 :root {
-	--primary: #ea4040;
-	--business: #3A82EE;
-	--personal: var(--primary);
+	--primary: #ee4d72;
+	--Harian: #f046d1;
+	--Kuliah: var(--primary);
 	--light: #EEE;
 	--grey: #888;
-	--dark: #b13333;
-	--danger: #ff5b57;
+	--dark: #ff0479;
+	--danger: #f70aa4fe;
 
 	--shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
-	--Laki-Laki-glow: 0px 0px 4px rgba(58, 130, 238, 0.75);
-	--Perempuan-glow: 0px 0px 4px rgba(234, 64, 164, 0.75);
+	--Harian-glow: 0px 0px 4px rgba(205, 58, 238, 0.75);
+	--Kuliah-glow: 0px 0px 4px rgba(234, 64, 164, 0.75);
 }
 
 * {
@@ -77,7 +77,7 @@ h4 {
 	font-size: 1.125rem;
 	padding: 1rem 1.5rem;
 	color: var(--dark);
-	background-color: #FFF;
+	background-color: #f7f6f5;
 	border-radius: 0.5rem;
 	box-shadow: var(--shadow);
 	margin-bottom: 1.5rem;
@@ -96,7 +96,7 @@ h4 {
 	align-items: center;
 	justify-content: center;
 	padding: 1.5rem;
-	background-color: #FFF;
+	background-color: #f9f9fa;
 	border-radius: 0.5rem;
 	box-shadow: var(--shadow);
 	cursor: pointer;
@@ -114,13 +114,13 @@ input[type="checkbox"] {
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
-	border: 2px solid var(--business);
-	box-shadow: var(--business-glow);
+	border: 2px solid var(--Harian);
+	box-shadow: var(--Harian-glow);
 }
 
-.bubble.personal {
-	border-color: var(--personal);
-	box-shadow: var(--personal-glow);
+.bubble.Kuliah {
+	border-color: var(--Kuliah);
+	box-shadow: var(--Kuliah-glow);
 }
 
 .bubble::after {
@@ -129,15 +129,15 @@ input[type="checkbox"] {
 	opacity: 0;
 	width: 0px;
 	height: 0px;
-	background-color: var(--business);
-	box-shadow: var(--business-glow);
+	background-color: var(--Harian);
+	box-shadow: var(--Harian-glow);
 	border-radius: 50%;
 	transition: 0.2s ease-in-out;
 }
 
-.bubble.personal::after {
-	background-color: var(--personal);
-	box-shadow: var(--personal-glow);
+.bubble.Kuliah::after {
+	background-color: var(--Kuliah);
+	box-shadow: var(--Kuliah-glow);
 }
 
 input:checked ~ .bubble::after {
@@ -157,10 +157,10 @@ input:checked ~ .bubble::after {
 	width: 100%;
 	font-size: 1.125rem;
 	padding: 1rem 1.5rem;
-	color: #FFF;
-	background-color: var(--primary);
+	color: #f6f7f8;
+	background-color:#f46f9e;
 	border-radius: 0.5rem;
-	box-shadow: var(--personal-glow);
+	box-shadow: var(--Kuliah-glow);
 	cursor: pointer;
 	transition: 0.2s ease-in-out;
 }
@@ -176,7 +176,7 @@ input:checked ~ .bubble::after {
 .todo-list .todo-item {
 	display: flex;
 	align-items: center;
-	background-color: #FFF;
+	background-color: #ffffff;
 	padding: 1rem;
 	border-radius: 0.5rem;
 	box-shadow: var(--shadow);
